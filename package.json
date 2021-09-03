@@ -73,6 +73,7 @@
     "nock": "^9.2.3"
   },
   "dependencies": {
+    "uuid": "^8.3.2",
     "jsonwebtoken": "^8.2.0",
     "lodash": "^4.17.11",
     "opentok-token": "^1.1.1",

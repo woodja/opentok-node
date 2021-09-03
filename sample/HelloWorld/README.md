@@ -4,6 +4,19 @@ This is a simple demo app that shows how you can use the OpenTok Node SDK to cre
 generate Tokens with those Sessions, and then pass these values to a JavaScript client that can
 connect and conduct a group chat.
 
+## Note about VG authentication
+
+This version of the sample app is used to test VG authentication. Set the
+`VONAGE_APP_ID` and `VONAGE_PRIVATE_KEY_PATH` environment variables.
+
+Also, to use a test environment, set the `VONAGE_VIDEO_API_SERVER_URL` and `OPENTOK_JS_URL`
+envoironment variables:
+
+```
+export VONAGE_VIDEO_API_SERVER_URL=https://api.dev.opentok.com
+export OPENTOK_JS_URL=https://static.dev.tokbox.com/v2/js/opentok.js
+```
+
 ## Running the App
 
 First, download the dependencies using [npm](https://www.npmjs.org) in this directory.
@@ -12,13 +25,26 @@ First, download the dependencies using [npm](https://www.npmjs.org) in this dire
 $ npm install
 ```
 
-Next, add your own API Key and API Secret to the environment variables. There are a few ways to do
+Next, add your own OpenTok API Key and API secret to the environment variables. There are a few ways to do
 this but the simplest would be to do it right in your shell.
 
 ```
-$ export API_KEY=0000000
-$ export API_SECRET=abcdef1234567890abcdef01234567890abcdef
+export API_KEY=0000000
+export API_SECRET=abcdef1234567890abcdef01234567890abcdef
 ```
+
+Alternately, add a Vonage application ID and a path to a private key file associated with that
+application to the environment variables:
+
+```
+export VONAGE_APP_ID="/Users/bob/Downloads/bobs-private-key.key"
+export VONAGE_PRIVATE_KEY_PATH=0000000
+export VONAGE_VIDEO_API_SERVER_URL=https://api.dev.opentok.com
+export OPENTOK_JS_URL=https://static.dev.tokbox.com/v2/js/opentok.js
+```
+
+If you set the Vonage application credentials, the app will use these instead of 
+an OpenTok API key and secret.
 
 Finally, start the app using node
 

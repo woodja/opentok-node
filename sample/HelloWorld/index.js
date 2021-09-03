@@ -6,12 +6,20 @@ var OpenTok = require('../../lib/opentok');
 var app = express();
 
 var opentok;
-var apiKey = process.env.API_KEY;
+var apiKey = process.env.VO;
 var apiSecret = process.env.API_SECRET;
+var appId = process.env.VONAGE_APP_ID;
+var keyPath = process.env.VONAGE_PRIVATE_KEY_PATH;
+var env = process.env.VONAGE_VIDEO_API_SERVER_URL;
+var otOptions = {
+  vgAuth: !!appId,
+  env: env
+};
 
-// Verify that the API Key and API Secret are defined
-if (!apiKey || !apiSecret) {
-  console.log('You must specify API_KEY and API_SECRET environment variables');
+// Verify that either the OpenTok API key and API secret
+// or the VG app ID and private key path are defined
+if (!(apiKey && apiSecret) && !(appId && keyPath)) {
+  console.log('You must specify API_KEY and API_SECRET or VONAGE_APP_ID and VONAGE_PRIVATE_KEY_PATH environment variables');
   process.exit(1);
 }
 
@@ -26,7 +34,12 @@ function init() {
 app.use(express.static(__dirname + '/public')); //
 
 // Initialize OpenTok
-opentok = new OpenTok(apiKey, apiSecret);
+if (otOptions.vgAuth) {
+  opentok = new OpenTok(appId, keyPath, otOptions);
+}
+else {
+  opentok = new OpenTok(apiKey, apiSecret, otOptions);
+}
 
 // Create a session and store it in the express app
 opentok.createSession(function (err, session) {
@@ -40,10 +53,10 @@ app.get('/', function (req, res) {
   var sessionId = app.get('sessionId');
   // generate a fresh token for this client
   var token = opentok.generateToken(sessionId);
-
   res.render('index.ejs', {
     apiKey: apiKey,
     sessionId: sessionId,
-    token: token
+    token: token,
+    otjsSrcUrl: process.env.OPENTOK_JS_URL || 'https://static.dev.tokbox.com/v2/js/opentok.js'
   });
 });
