@@ -6,7 +6,7 @@ var OpenTok = require('../../lib/opentok');
 var app = express();
 
 var opentok;
-var apiKey = process.env.VO;
+var apiKey = process.env.API_KEY;
 var apiSecret = process.env.API_SECRET;
 var appId = process.env.VONAGE_APP_ID;
 var keyPath = process.env.VONAGE_PRIVATE_KEY_PATH;
@@ -57,6 +57,6 @@ app.get('/', function (req, res) {
     apiKey: apiKey,
     sessionId: sessionId,
     token: token,
-    otjsSrcUrl: process.env.OPENTOK_JS_URL || 'https://static.dev.tokbox.com/v2/js/opentok.js'
+    otjsSrcUrl: process.env.OPENTOK_JS_URL || 'https://static.opentok.com/v2/js/opentok.min.js'
   });
 });
